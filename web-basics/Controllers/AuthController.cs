@@ -61,8 +61,8 @@ namespace web_basics.Controllers
 
             var claims = new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Role.ToString()),
-                new Claim("role", user.Id.ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim("role", user.Role.ToString())
             };
 
             var token = new JwtSecurityToken(
