@@ -23,7 +23,7 @@ namespace web_basics.data
         }
 
         public DbSet<Cat> Cats { get; set; }
-
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Owner> Owners { get; set; }
     }
 }

@@ -32,6 +32,15 @@ namespace web_basics.data
                 });
             }
 
+            if (!context.Owners.Any())
+            {
+                context.Owners.AddRange(new Entities.Owner[] {
+                    new Entities.Owner() { UserId = 1 , CatId = 1 },
+                    new Entities.Owner() { UserId = 2 , CatId = 3 },
+                    new Entities.Owner() { UserId = 2 , CatId = 4 }
+                });
+            }
+
             context.SaveChanges();
         }
     }
