@@ -10,6 +10,14 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CatComponent } from './cat/cat.component';
+import { environment } from 'src/environments/environment';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ACCESS_TOKEN_KEY } from './services/auth.service';
+import { AUTH_API_URL } from './app-injection-token';
+
+export function tokenGetter() {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
 
 @NgModule({
   declarations: [
@@ -29,9 +37,19 @@ import { CatComponent } from './cat/cat.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'cat', component: CatComponent },
-    ])
+    ]),
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter/*,
+        allowedDomains: environment.tokenWhiteListedDomains*/
+      }
+    })
   ],
-  providers: [],
+  providers: [{
+    provide: AUTH_API_URL,
+    useValue: environment.authApi
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class CatService {
   constructor(private httpClient: HttpClient) { }
 
-  url: string = "api/cat";
+  url: string = "api/owner";
 
   get(): Observable<Cat[]> {
     return this.httpClient.get<Cat[]>(this.url);
