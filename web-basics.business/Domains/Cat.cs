@@ -7,23 +7,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace web_basics.business.Domains
 {
-    public class Cat
+  public class Cat
+  {
+    data.Repositories.Cat _repository;
+    IMapper _mapper;
+
+    public Cat(data.Repositories.Cat repository, IMapper mapper)
     {
-        data.Repositories.Cat repository;
-        IMapper mapper;
-
-        public Cat(IConfiguration configuration)
-        {
-            this.repository = new data.Repositories.Cat(configuration);
-            this.mapper = new MapperConfiguration(cfg => {
-                cfg.CreateMap<data.Entities.Cat, ViewModels.Cat>();
-            }).CreateMapper();
-        }
-
-        public IEnumerable<ViewModels.Cat> Get()
-        {
-            var cats = repository.Get();
-            return cats.Select(cat => mapper.Map<data.Entities.Cat, ViewModels.Cat>(cat));
-        }
+      _repository = repository;
+      _mapper = mapper;
     }
+
+    public IEnumerable<ViewModels.Cat> Get()
+    {
+      var cats = _repository.Get();
+      return cats.Select(cat => _mapper.Map<data.Entities.Cat, ViewModels.Cat>(cat));
+    }
+  }
 }

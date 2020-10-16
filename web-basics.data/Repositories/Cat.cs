@@ -6,19 +6,19 @@ using System.Text;
 
 namespace web_basics.data.Repositories
 {
-    public class Cat
+  public class Cat
+  {
+    WebBasicsDBContext _webBasicsDbContext;
+
+    public Cat(WebBasicsDBContext context)
     {
-        WebBasicsDBContext context;
-
-        public Cat(IConfiguration configuration)
-        {
-            this.context = new WebBasicsDBContext(configuration);
-        }
-
-        public IEnumerable<Entities.Cat> Get()
-        {
-            var cats = context.Cats.ToList();
-            return cats;
-        }
+      _webBasicsDbContext = context;
     }
+
+    public IEnumerable<Entities.Cat> Get()
+    {
+      var cats = _webBasicsDbContext.Cats.ToList();
+      return cats;
+    }
+  }
 }

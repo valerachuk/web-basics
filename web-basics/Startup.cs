@@ -1,10 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using web_basics.business;
+using web_basics.data;
 
 namespace web_basics
 {
@@ -26,6 +30,16 @@ namespace web_basics
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddDbContext<WebBasicsDBContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<data.Repositories.Dog>();
+            services.AddTransient<data.Repositories.Cat>();
+
+            services.AddTransient<business.Domains.Dog>();
+            services.AddTransient<business.Domains.Cat>();
+
+            var mapConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
+            services.AddSingleton(mapConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

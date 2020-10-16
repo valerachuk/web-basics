@@ -5,25 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using web_basics.business.Domains;
 
 namespace web_basics.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class CatController : ControllerBase
+  public class DogController : ControllerBase
   {
-    business.Domains.Cat _domain;
+    private business.Domains.Dog _domain;
 
-    public CatController(business.Domains.Cat domain)
+    public DogController(business.Domains.Dog domain)
     {
       _domain = domain;
     }
 
     [HttpGet]
-    public IActionResult Get()
-    {
-      var cats = this._domain.Get();
-      return Ok(cats);
-    }
+    public IActionResult Get() => Ok(_domain.Get());
+
   }
 }
