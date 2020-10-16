@@ -11,6 +11,7 @@ namespace web_basics.business
     {
       CreateMap<data.Entities.Cat, ViewModels.Cat>();
       CreateMap<data.Entities.Dog, ViewModels.Dog>();
+      CreateMap<ViewModels.DogRequest, data.Entities.Dog>();
     }
   }
 }

@@ -4,3 +4,9 @@ export interface Dog {
   age: number;
   weight: number;
 }
+
+export interface DogRequest {
+  name: string;
+  age: number;
+  weight: number;
+}

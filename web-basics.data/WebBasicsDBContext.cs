@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using web_basics.data.Entities;
 
 namespace web_basics.data
@@ -18,10 +14,10 @@ namespace web_basics.data
     {
       modelBuilder.Entity<Dog>().HasData(new[]
       {
-        new Entities.Dog {Id = 1, Name = "Barya", Age = 7, Weight = 32},
-        new Entities.Dog {Id = 2, Name = "Bobik", Age = 1, Weight = 6},
-        new Entities.Dog {Id = 3, Name = "Richi", Age = 5, Weight = 34},
-        new Entities.Dog {Id = 4, Name = "Rex", Age = 6, Weight = 87},
+        new Entities.Dog {Id = 1, Name = "Barya", Age = 7, Weight = 32.12f },
+        new Entities.Dog {Id = 2, Name = "Bobik", Age = 1, Weight = 6.1f },
+        new Entities.Dog {Id = 3, Name = "Richi", Age = 5, Weight = 34.2f },
+        new Entities.Dog {Id = 4, Name = "Rex", Age = 6, Weight = 87.7f },
       });
 
       modelBuilder.Entity<Cat>().HasData(new []

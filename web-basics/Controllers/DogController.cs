@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using web_basics.business.Domains;
+using web_basics.business.ViewModels;
 
 namespace web_basics.Controllers
 {
@@ -23,5 +24,11 @@ namespace web_basics.Controllers
     [HttpGet]
     public IActionResult Get() => Ok(_domain.Get());
 
+    [HttpPost]
+    public IActionResult Post([FromBody] DogRequest dogRequest)
+    {
+      _domain.Add(dogRequest);
+      return Ok();
+    }
   }
 }

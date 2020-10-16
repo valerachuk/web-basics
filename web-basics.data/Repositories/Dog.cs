@@ -16,5 +16,11 @@ namespace web_basics.data.Repositories
     }
 
     public IEnumerable<Entities.Dog> Get() => _webBasicsDbContext.Dogs.ToList();
+
+    public void Add(Entities.Dog dog)
+    {
+      _webBasicsDbContext.Dogs.Add(dog);
+      _webBasicsDbContext.SaveChanges();
+    }
   }
 }
