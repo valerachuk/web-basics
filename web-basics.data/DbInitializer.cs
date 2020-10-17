@@ -7,41 +7,41 @@ using web_basics.data.Entities;
 
 namespace web_basics.data
 {
-    public static class DbInitializer
+  public static class DbInitializer
+  {
+    public static void Initialize(WebBasicsDBContext context)
     {
-        public static void Initialize(WebBasicsDBContext context)
-        {
-            context.Database.EnsureCreated();
+      context.Database.EnsureCreated();
 
-            if (!context.Cats.Any())
-            {
-                context.Cats.AddRange(new Entities.Cat[] {
+      if (!context.Cats.Any())
+      {
+        context.Cats.AddRange(new Entities.Cat[] {
                     new Entities.Cat() { Name = "Barsik", Age = 3 },
                     new Entities.Cat() { Name = "Kozkii", Age = 4 },
                     new Entities.Cat() { Name = "Murka", Age = 13 },
                     new Entities.Cat() { Name = "Bony", Age = 2 }
                 });
-            }
+      }
 
-            if (!context.Accounts.Any())
-            {
-                context.Accounts.AddRange(new Entities.Account[] {
+      if (!context.Accounts.Any())
+      {
+        context.Accounts.AddRange(new Entities.Account[] {
                     new Entities.Account() { Email = "user1@email.com", Password = "111111", Role = Role.User },
                     new Entities.Account() { Email = "user2@email.com", Password = "222222", Role = Role.User },
                     new Entities.Account() { Email = "admin@email.com", Password = "password", Role = Role.Admin }
                 });
-            }
+      }
 
-            if (!context.Owners.Any())
-            {
-                context.Owners.AddRange(new Entities.Owner[] {
+      if (!context.Owners.Any())
+      {
+        context.Owners.AddRange(new Entities.Owner[] {
                     new Entities.Owner() { UserId = 1 , CatId = 1 },
                     new Entities.Owner() { UserId = 2 , CatId = 3 },
                     new Entities.Owner() { UserId = 2 , CatId = 4 }
                 });
-            }
+      }
 
-            context.SaveChanges();
-        }
+      context.SaveChanges();
     }
+  }
 }

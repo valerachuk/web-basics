@@ -7,23 +7,17 @@ using web_basics.data.Entities;
 
 namespace web_basics.data
 {
-    public class WebBasicsDBContext : DbContext
+  public class WebBasicsDBContext : DbContext
+  {
+    IConfiguration _configuration;
+
+    public WebBasicsDBContext(DbContextOptions contextOptions) : base(contextOptions)
     {
-        IConfiguration _configuration;
-
-        public WebBasicsDBContext(IConfiguration configuration) : base()
-        {
-            this._configuration = configuration;
-            DbInitializer.Initialize(this);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
-        }
-
-        public DbSet<Cat> Cats { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Owner> Owners { get; set; }
+      DbInitializer.Initialize(this);
     }
+
+    public DbSet<Cat> Cats { get; set; }
+    public DbSet<Account> Accounts { get; set; }
+    public DbSet<Owner> Owners { get; set; }
+  }
 }

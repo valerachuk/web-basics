@@ -7,19 +7,19 @@ using System.Text;
 
 namespace web_basics.data.Repositories
 {
-    public class Account
+  public class Account
+  {
+    WebBasicsDBContext _context;
+
+    public Account(WebBasicsDBContext context)
     {
-        WebBasicsDBContext context;
-
-        public Account(IConfiguration configuration)
-        {
-            this.context = new WebBasicsDBContext(configuration);
-        }
-
-        public IEnumerable<Entities.Account> Get()
-        {
-            var accounts = context.Accounts.ToList();
-            return accounts;
-        }
+      _context = context;
     }
+
+    public IEnumerable<Entities.Account> Get()
+    {
+      var accounts = _context.Accounts.ToList();
+      return accounts;
+    }
+  }
 }

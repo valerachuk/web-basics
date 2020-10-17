@@ -8,22 +8,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace web_basics.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CatController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class CatController : ControllerBase
+  {
+    business.Domains.Cat _domain;
+
+    public CatController(business.Domains.Cat domain)
     {
-        business.Domains.Cat domain;
-
-        public CatController(IConfiguration configuration) 
-        {
-            this.domain = new business.Domains.Cat(configuration);
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var cats = this.domain.Get();
-            return Ok(cats);
-        }
+      _domain = domain;
     }
+
+    [HttpGet]
+    public IActionResult Get()
+    {
+      var cats = this._domain.Get();
+      return Ok(cats);
+    }
+  }
 }

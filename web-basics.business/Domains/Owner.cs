@@ -7,23 +7,21 @@ using System.Linq;
 
 namespace web_basics.business.Domains
 {
-    public class Owner
+  public class Owner
+  {
+    IMapper _mapper;
+    data.Repositories.Owner _repository;
+
+    public Owner(IMapper mapper, data.Repositories.Owner repository)
     {
-        IMapper mapper;
-        data.Repositories.Owner repository;
-
-        public Owner(IConfiguration configuration)
-        {
-            this.repository = new data.Repositories.Owner(configuration);
-            this.mapper = new MapperConfiguration(cfg => {
-                cfg.CreateMap<data.Entities.Owner, ViewModels.Owner>();
-            }).CreateMapper();
-        }
-
-        public IEnumerable<ViewModels.Owner> Get()
-        {
-            var owners = repository.Get();
-            return owners.Select(owner => mapper.Map<data.Entities.Owner, ViewModels.Owner>(owner));
-        }
+      _repository = repository;
+      _mapper = mapper;
     }
+
+    public IEnumerable<ViewModels.Owner> Get()
+    {
+      var owners = _repository.Get();
+      return owners.Select(owner => _mapper.Map<data.Entities.Owner, ViewModels.Owner>(owner));
+    }
+  }
 }

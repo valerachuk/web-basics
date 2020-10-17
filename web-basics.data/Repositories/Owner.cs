@@ -5,19 +5,19 @@ using System.Linq;
 
 namespace web_basics.data.Repositories
 {
-    public class Owner
+  public class Owner
+  {
+    WebBasicsDBContext _context;
+
+    public Owner(WebBasicsDBContext context)
     {
-        WebBasicsDBContext context;
-
-        public Owner(IConfiguration configuration)
-        {
-            this.context = new WebBasicsDBContext(configuration);
-        }
-
-        public IEnumerable<Entities.Owner> Get()
-        {
-            var owners = context.Owners.ToList();
-            return owners;
-        }
+      _context = context;
     }
+
+    public IEnumerable<Entities.Owner> Get()
+    {
+      var owners = _context.Owners.ToList();
+      return owners;
+    }
+  }
 }

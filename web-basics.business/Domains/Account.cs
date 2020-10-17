@@ -7,23 +7,21 @@ using System.Linq;
 
 namespace web_basics.business.Domains
 {
-    public class Account
+  public class Account
+  {
+    IMapper _mapper;
+    data.Repositories.Account _repository;
+
+    public Account(IMapper mapper, data.Repositories.Account repository)
     {
-        IMapper mapper;
-        data.Repositories.Account repository;
-
-        public Account(IConfiguration configuration)
-        {
-            this.repository = new data.Repositories.Account(configuration);
-            this.mapper = new MapperConfiguration(cfg => {
-                cfg.CreateMap<data.Entities.Account, ViewModels.Account>();
-            }).CreateMapper();
-        }
-
-        public IEnumerable<ViewModels.Account> Get()
-        {
-            var accounts = repository.Get();
-            return accounts.Select(account => mapper.Map<data.Entities.Account, ViewModels.Account>(account));
-        }
+      _repository = repository;
+      _mapper = mapper;
     }
+
+    public IEnumerable<ViewModels.Account> Get()
+    {
+      var accounts = _repository.Get();
+      return accounts.Select(account => _mapper.Map<data.Entities.Account, ViewModels.Account>(account));
+    }
+  }
 }

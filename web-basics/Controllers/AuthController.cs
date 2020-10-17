@@ -15,64 +15,64 @@ using web_basics.Common;
 
 namespace web_basics.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class AuthController : ControllerBase
+  {
+    business.Domains.Account _domain;
+    private readonly IOptions<AuthOptions> AuthOptions;
+
+    public AuthController(business.Domains.Account domain, IOptions<AuthOptions> authOptions)
     {
-        business.Domains.Account domain;
-        private readonly IOptions<AuthOptions> AuthOptions;
+      _domain = domain;
+      this.AuthOptions = authOptions;
+    }
 
-        public AuthController(IConfiguration configuration, IOptions<AuthOptions> authOptions)
+    [Route("login")]
+    [HttpPost]
+    public IActionResult Login([FromBody] Login request)
+    {
+      var user = AuthenticateUser(request.Email, request.Password);
+
+      if (user != null)
+      {
+        var token = GenerateJWT(user);
+
+        return Ok(new
         {
-            this.domain = new business.Domains.Account(configuration);
-            this.AuthOptions = authOptions;
-        }
+          access_token = token
+        });
+      }
 
-        [Route("login")]
-        [HttpPost]
-        public IActionResult Login([FromBody] Login request)
-        {
-            var user = AuthenticateUser(request.Email, request.Password);
+      return Unauthorized();
+    }
 
-            if (user != null)
-            {
-                var token = GenerateJWT(user);
+    public Account AuthenticateUser(string email, string password)
+    {
+      return this._domain.Get().SingleOrDefault(user => user.Email == email && user.Password == password);
+    }
 
-                return Ok(new
-                {
-                    access_token = token
-                });
-            }
+    private string GenerateJWT(Account user)
+    {
+      var authParam = this.AuthOptions.Value;
 
-            return Unauthorized();
-        }
+      var securityKey = authParam.GetSymmetricSecurityKey();
+      var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        public Account AuthenticateUser(string email, string password)
-        {
-            return this.domain.Get().SingleOrDefault(user => user.Email == email && user.Password == password);
-        }
-
-        private string GenerateJWT(Account user)
-        {
-            var authParam = this.AuthOptions.Value;
-
-            var securityKey = authParam.GetSymmetricSecurityKey();
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim> {
+      var claims = new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("role", user.Role.ToString())
             };
 
-            var token = new JwtSecurityToken(
-                authParam.Issuer,
-                authParam.Audience,
-                claims,
-                expires: DateTime.Now.AddSeconds(authParam.TokenLifetime),
-                signingCredentials: credentials);
+      var token = new JwtSecurityToken(
+          authParam.Issuer,
+          authParam.Audience,
+          claims,
+          expires: DateTime.Now.AddSeconds(authParam.TokenLifetime),
+          signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+      return new JwtSecurityTokenHandler().WriteToken(token);
     }
+  }
 }
