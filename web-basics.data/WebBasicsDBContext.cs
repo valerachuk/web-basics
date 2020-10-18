@@ -9,8 +9,6 @@ namespace web_basics.data
 {
   public class WebBasicsDBContext : DbContext
   {
-    IConfiguration _configuration;
-
     public WebBasicsDBContext(DbContextOptions contextOptions) : base(contextOptions)
     {
       DbInitializer.Initialize(this);

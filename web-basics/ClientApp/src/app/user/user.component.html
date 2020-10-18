@@ -1,0 +1,85 @@
+<p *ngIf="!users"><em>Loading...</em></p>
+
+<table class="table table-striped" aria-labelledby="tableLabel" *ngIf="users">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.password }}</td>
+      <td>
+        {{ getRole(user) }}
+      </td>
+      <td>
+        <button
+          class="btn btn-warning"
+          *ngIf="isAdmin(user); else toAdminBtn"
+          (click)="toUser(user)"
+        >
+          to "User"
+        </button>
+        <ng-template #toAdminBtn>
+          <button class="btn btn-warning" (click)="toAdmin(user)">
+            to "Admin"
+          </button>
+        </ng-template>
+        <button class="btn btn-danger ml-3" (click)="deleteUser(user)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>Add user</h2>
+  <div class="form-group">
+    <label for="email-input"> Email </label>
+    <input
+      type="text"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': form.get('email').invalid && form.get('email').touched
+      }"
+      id="email-input"
+      formControlName="email"
+    />
+    <small
+      class="form-text text-danger"
+      *ngIf="form.hasError('required', 'email') && form.get('email').touched"
+      >Email is required</small
+    >
+    <small
+      class="form-text text-danger"
+      *ngIf="form.getError('email', 'email') && form.get('email').touched"
+      >Email is invalid</small
+    >
+  </div>
+  <div class="form-group">
+    <label for="password-input"> Password </label>
+    <input
+      type="text"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.get('password').invalid && form.get('password').touched
+      }"
+      id="password-input"
+      formControlName="password"
+    />
+    <small
+      class="form-text text-danger"
+      *ngIf="form.get('password').invalid && form.get('password').touched"
+      >Password is required</small
+    >
+  </div>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>

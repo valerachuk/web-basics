@@ -33,8 +33,12 @@
           </li>
 
           <!-- Animals -->
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf='isLoggedId'>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf='isLoggedId && !isAdmin'>
             <a class="nav-link text-dark" [routerLink]="['/cat']">Cat</a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf='isLoggedId && isAdmin'>
+            <a class="nav-link text-dark" [routerLink]="['/user']">User</a>
           </li>
         </ul>
       </div>

@@ -36,8 +36,13 @@ export class AuthService {
     return token && !this.jwtHelper.isTokenExpired(token);
   }
 
+  isAdmin(): boolean {
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    return this.jwtHelper.decodeToken(token).role === 'Admin';
+  }
+
   logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
-    this.router.navigate[''];
+    this.router.navigate(['']);
   }
 }
