@@ -1,0 +1,22 @@
+<h2>Dashboard</h2>
+
+<ul>
+  <li *ngFor="let message of messages">
+    {{ message.msg }}
+    <button (click)="onDelete(message.id)">delete</button> 
+    <button (click)="pendingEditId = message.id; pendingEditMessage = message.msg">edit</button> 
+  </li>
+</ul>
+
+<div>
+  Add new: 
+  <input type="text" [(ngModel)]="pendingMessage">
+  <button (click)="onAdd()">Add</button>
+</div>
+
+<div *ngIf="pendingEditId != null">
+  Edit:
+  <input type="text" [(ngModel)]="pendingEditMessage">
+  <button (click)="onEdit()">Confirm</button>
+  <button (click)="pendingEditId = null">Cancel</button>
+</div>
