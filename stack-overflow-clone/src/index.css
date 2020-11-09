@@ -1,0 +1,12 @@
+.question-review-container {
+  padding: 15px;
+  margin: 10px;
+  border: 2px solid salmon;
+  border-radius: 15px;
+}
+
+.wrapper {
+  padding-top: 50px;
+  margin: 0 auto;
+  width: 600px;
+}
